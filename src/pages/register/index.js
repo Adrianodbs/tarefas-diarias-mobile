@@ -4,7 +4,6 @@ import {
   Text,
   View,
   TextInput,
-  Button,
   TouchableOpacity
 } from 'react-native'
 import DaySelector from '../../components/DaySelector'
@@ -36,32 +35,100 @@ const Register = () => {
   }
 
   return (
-    <View>
-      <Text>Adicionar uma nova tarefa</Text>
-
-      <View>
-        <TextInput
-          placeholder="Adicionar tarefa"
-          value={taskName}
-          onChangeText={text => setTaskName(text)}
-        />
+    <View style={styles.register}>
+      <View style={styles.titleContainer}>
+        <Text style={styles.title}>Adicionar uma nova tarefa</Text>
       </View>
 
-      <DaySelector selectedDays={selectedDays} onDayPress={toggleDay} />
+      <View style={styles.content}>
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Título da Tarefa</Text>
+          <TextInput
+            placeholder="Adicionar tarefa"
+            value={taskName}
+            onChangeText={text => setTaskName(text)}
+            style={styles.input}
+          />
+        </View>
 
-      <View>
-        <TextInput
-          placeholder="Categoria"
-          value={category}
-          onChangeText={text => setCategory(text)}
-        />
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Dias da Semana</Text>
+          <DaySelector selectedDays={selectedDays} onDayPress={toggleDay} />
+        </View>
+
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Categoria</Text>
+          <TextInput
+            placeholder="Categoria"
+            value={category}
+            onChangeText={text => setCategory(text)}
+            style={styles.input}
+          />
+        </View>
+
+        <TouchableOpacity style={styles.button} onPress={saveTask}>
+          <Text style={styles.buttonTitle}>Salvar</Text>
+        </TouchableOpacity>
       </View>
-
-      <Button title="Salvar" onPress={saveTask} />
     </View>
   )
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  register: {
+    flex: 1,
+    width: '100%',
+    flexDirection: 'column',
+    backgroundColor: '#4A3780'
+  },
+  titleContainer: {
+    flex: 1, // 20% da tela
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#4A3780'
+  },
+  title: {
+    color: '#fff',
+    fontSize: 24,
+    fontWeight: 'bold'
+  },
+  content: {
+    flex: 4, // 80% da tela
+    backgroundColor: '#f1f5f9',
+    paddingHorizontal: 16,
+    paddingVertical: 32,
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+  section: {
+    marginBottom: 20
+  },
+  sectionTitle: {
+    color: '#000',
+    fontSize: 18,
+    marginBottom: 8
+  },
+  input: {
+    backgroundColor: '#fff',
+    minWidth: '90%',
+    height: 40,
+    paddingLeft: 10,
+    borderRadius: 4,
+    color: '#fff'
+  },
+  button: {
+    backgroundColor: '#4A3780',
+    width: '90%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 40,
+    borderRadius: 24
+  },
+  buttonTitle: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 18
+  }
+})
 
 export default Register
