@@ -7,6 +7,7 @@ import {
   Button,
   TouchableOpacity
 } from 'react-native'
+import DaySelector from '../../components/DaySelector'
 
 const Register = () => {
   const [taskName, setTaskName] = useState('')
@@ -46,74 +47,7 @@ const Register = () => {
         />
       </View>
 
-      <View>
-        <Text>Selecione os dias da semana:</Text>
-        <View style={styles.daySelector}>
-          <TouchableOpacity
-            style={[
-              styles.dayButton,
-              selectedDays.includes('Segunda-feira') && styles.selectedDay
-            ]}
-            onPress={() => toggleDay('Segunda-feira')}
-          >
-            <Text>Seg</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[
-              styles.dayButton,
-              selectedDays.includes('Terça-feira') && styles.selectedDay
-            ]}
-            onPress={() => toggleDay('Terça-feira')}
-          >
-            <Text>Ter</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[
-              styles.dayButton,
-              selectedDays.includes('Quarta-feira') && styles.selectedDay
-            ]}
-            onPress={() => toggleDay('Quarta-feira')}
-          >
-            <Text>Qua</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[
-              styles.dayButton,
-              selectedDays.includes('Quinta-feira') && styles.selectedDay
-            ]}
-            onPress={() => toggleDay('Quinta-feira')}
-          >
-            <Text>Qui</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[
-              styles.dayButton,
-              selectedDays.includes('Sexta-feira') && styles.selectedDay
-            ]}
-            onPress={() => toggleDay('Sexta-feira')}
-          >
-            <Text>Sex</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[
-              styles.dayButton,
-              selectedDays.includes('Sábado') && styles.selectedDay
-            ]}
-            onPress={() => toggleDay('Sábado')}
-          >
-            <Text>Sáb</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[
-              styles.dayButton,
-              selectedDays.includes('Domingo') && styles.selectedDay
-            ]}
-            onPress={() => toggleDay('Domingo')}
-          >
-            <Text>Dom</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+      <DaySelector selectedDays={selectedDays} onDayPress={toggleDay} />
 
       <View>
         <TextInput
@@ -128,21 +62,6 @@ const Register = () => {
   )
 }
 
-const styles = StyleSheet.create({
-  daySelector: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginVertical: 10
-  },
-  dayButton: {
-    borderWidth: 1,
-    borderColor: 'gray',
-    padding: 10,
-    borderRadius: 5
-  },
-  selectedDay: {
-    backgroundColor: 'lightblue'
-  }
-})
+const styles = StyleSheet.create({})
 
 export default Register
