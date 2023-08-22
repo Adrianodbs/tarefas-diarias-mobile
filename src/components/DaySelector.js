@@ -13,7 +13,7 @@ const DaySelector = ({ selectedDays, onDayPress }) => {
   ]
 
   return (
-    <View>
+    <View style={styles.content}>
       <Text>Selecione os dias da semana:</Text>
       <View style={styles.daySelector}>
         {daysOfWeek.map(day => (
@@ -34,10 +34,14 @@ const DaySelector = ({ selectedDays, onDayPress }) => {
 }
 
 const styles = StyleSheet.create({
+  content: {
+    alignItems: 'center'
+  },
   daySelector: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginVertical: 10
+    marginVertical: 10,
+    gap: 5
   },
   dayButton: {
     borderWidth: 1,
