@@ -15,7 +15,7 @@ const Tasks = () => {
       </View>
 
       <View style={styles.content}>
-        {tasks > 0 ? (
+        {tasks.length > 0 ? (
           <View style={styles.contentTasks}>
             {tasks.map((task, index) => (
               <View key={index} style={styles.contentItem}>
