@@ -15,17 +15,21 @@ const Tasks = () => {
       </View>
 
       <View style={styles.content}>
-        <View style={styles.contentTasks}>
-          {tasks.map((task, index) => (
-            <View key={index} style={styles.contentItem}>
-              <Text style={styles.itemTitle}>{task.name}</Text>
-              <CheckBox
-                checked={checked}
-                onPress={() => setChecked(!checked)}
-              />
-            </View>
-          ))}
-        </View>
+        {tasks > 0 ? (
+          <View style={styles.contentTasks}>
+            {tasks.map((task, index) => (
+              <View key={index} style={styles.contentItem}>
+                <Text style={styles.itemTitle}>{task.name}</Text>
+                <CheckBox
+                  checked={checked}
+                  onPress={() => setChecked(!checked)}
+                />
+              </View>
+            ))}
+          </View>
+        ) : (
+          <Text>Você ainda não cadastrou nenhuma tarefa!</Text>
+        )}
       </View>
     </SafeAreaView>
   )
