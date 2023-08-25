@@ -1,12 +1,14 @@
 import { StatusBar } from 'expo-status-bar'
 import { StyleSheet, View } from 'react-native'
 import Register from './src/pages/register'
+import { NavigationContainer } from '@react-navigation/native'
+import { Routes } from './src/routes'
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Register />
-    </View>
+    <NavigationContainer>
+      <Routes />
+    </NavigationContainer>
   )
 }
 
