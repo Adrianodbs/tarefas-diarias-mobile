@@ -3,15 +3,18 @@ import {
   StyleSheet,
   Text,
   View,
+  SafeAreaView,
   TextInput,
   TouchableOpacity
 } from 'react-native'
 import DaySelector from '../../components/DaySelector'
 
+import { useTasks } from '../../context/TaskContext'
+
 const Register = () => {
   const [taskName, setTaskName] = useState('')
   const [selectedDays, setSelectedDays] = useState([])
-  const [category, setCategory] = useState('')
+  const { addTask } = useTasks()
 
   const toggleDay = day => {
     const updatedDays = selectedDays.includes(day)
@@ -21,21 +24,18 @@ const Register = () => {
   }
 
   const saveTask = () => {
-    // Aqui você pode adicionar a lógica para salvar a tarefa
     const task = {
       name: taskName,
-      daysOfWeek: selectedDays,
-      category: category
+      daysOfWeek: selectedDays
     }
-    console.log('Tarefa salva:', task)
-    // Limpar os campos após salvar
+    addTask(task)
+
     setTaskName('')
     setSelectedDays([])
-    setCategory('')
   }
 
   return (
-    <View style={styles.register}>
+    <SafeAreaView style={styles.register}>
       <View style={styles.titleContainer}>
         <Text style={styles.title}>Adicionar uma nova tarefa</Text>
       </View>
@@ -56,21 +56,11 @@ const Register = () => {
           <DaySelector selectedDays={selectedDays} onDayPress={toggleDay} />
         </View>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Categoria</Text>
-          <TextInput
-            placeholder="Categoria"
-            value={category}
-            onChangeText={text => setCategory(text)}
-            style={styles.input}
-          />
-        </View>
-
         <TouchableOpacity style={styles.button} onPress={saveTask}>
           <Text style={styles.buttonTitle}>Salvar</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </SafeAreaView>
   )
 }
 
@@ -114,7 +104,7 @@ const styles = StyleSheet.create({
     height: 40,
     paddingLeft: 10,
     borderRadius: 4,
-    color: '#fff'
+    color: '#000'
   },
   button: {
     backgroundColor: '#4A3780',

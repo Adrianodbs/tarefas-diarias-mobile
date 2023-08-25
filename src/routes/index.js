@@ -31,10 +31,12 @@ export function Routes() {
         options={{
           tabBarIcon: ({ color, size, focused }) => {
             if (focused) {
-              return <Ionicons name="home" color="#000" size={size} />
+              return <Ionicons name="add-circle" color="#000" size={size} />
             }
 
-            return <Ionicons name="home-outline" color={color} size={size} />
+            return (
+              <Ionicons name="add-circle-outline" color={color} size={size} />
+            )
           }
         }}
       />
@@ -44,10 +46,10 @@ export function Routes() {
         options={{
           tabBarIcon: ({ color, size, focused }) => {
             if (focused) {
-              return <Ionicons name="home" color="#000" size={size} />
+              return <Ionicons name="heart" color="red" size={size} />
             }
 
-            return <Ionicons name="home-outline" color={color} size={size} />
+            return <Ionicons name="heart-outline" color={color} size={size} />
           }
         }}
       />
@@ -57,10 +59,10 @@ export function Routes() {
         options={{
           tabBarIcon: ({ color, size, focused }) => {
             if (focused) {
-              return <Ionicons name="home" color="#000" size={size} />
+              return <Ionicons name="folder" color="#000" size={size} />
             }
 
-            return <Ionicons name="home-outline" color={color} size={size} />
+            return <Ionicons name="folder-outline" color={color} size={size} />
           }
         }}
       />

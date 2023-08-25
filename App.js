@@ -1,22 +1,15 @@
 import { StatusBar } from 'expo-status-bar'
-import { StyleSheet, View } from 'react-native'
-import Register from './src/pages/register'
 import { NavigationContainer } from '@react-navigation/native'
 import { Routes } from './src/routes'
+import { TaskProvider } from './src/context/TaskContext'
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Routes />
+      <TaskProvider>
+        <StatusBar backgroundColor={'#fff'} barStyle="light-content" />
+        <Routes />
+      </TaskProvider>
     </NavigationContainer>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
-})
