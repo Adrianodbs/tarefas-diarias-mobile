@@ -1,20 +1,32 @@
-import { StyleSheet, Text, View, SafeAreaView } from 'react-native'
+import {
+  StyleSheet,
+  Text,
+  View,
+  SafeAreaView,
+  TouchableOpacity
+} from 'react-native'
 import React, { useState } from 'react'
+
+import { Ionicons } from '@expo/vector-icons'
 
 import { CheckBox } from 'react-native-elements'
 
 import { useTasks } from '../../context/TaskContext'
 
 const Tasks = () => {
-  const { tasks } = useTasks()
+  const { tasks, removeTask } = useTasks()
   const [checkedTasks, setCheckedTasks] = useState([])
 
-  // Função para alternar o estado de uma tarefa quando o CheckBox é pressionado
   const toggleTask = index => {
     const updatedCheckedTasks = [...checkedTasks]
     updatedCheckedTasks[index] = !updatedCheckedTasks[index]
     setCheckedTasks(updatedCheckedTasks)
   }
+
+  const handleRemoveTask = taskName => {
+    removeTask(taskName)
+  }
+
   return (
     <SafeAreaView style={styles.tasks}>
       <View style={styles.titleContainer}>
@@ -31,6 +43,9 @@ const Tasks = () => {
                   checked={checkedTasks[index]}
                   onPress={() => toggleTask(index)}
                 />
+                <TouchableOpacity onPress={() => handleRemoveTask(task.name)}>
+                  <Ionicons name="trash-outline" size={24} color="red" />
+                </TouchableOpacity>
               </View>
             ))}
           </View>

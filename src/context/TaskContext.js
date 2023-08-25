@@ -23,11 +23,9 @@ export function TaskProvider({ children }) {
     fetchTasks()
   }, [])
 
-  const addTask = async task => {
+  const addTask = async updatedTasks => {
     try {
-      // Adicione a nova tarefa à lista existente
-      const updatedTasks = [...tasks, task]
-      setTasks(updatedTasks)
+      setTasks(updatedTasks) // Atualize o estado com a nova lista de tarefas
 
       // Salve a lista atualizada no localStorage
       await AsyncStorage.setItem('tasks', JSON.stringify(updatedTasks))
@@ -36,8 +34,22 @@ export function TaskProvider({ children }) {
     }
   }
 
+  const removeTask = taskName => {
+    const updatedTasks = tasks.filter(task => task.name !== taskName)
+    setTasks(updatedTasks)
+    saveTasksToStorage(updatedTasks) // Atualize o localStorage também
+  }
+
+  const saveTasksToStorage = async updatedTasks => {
+    try {
+      await AsyncStorage.setItem('tasks', JSON.stringify(updatedTasks))
+    } catch (error) {
+      console.error('Erro ao salvar tarefas no AsyncStorage', error)
+    }
+  }
+
   return (
-    <TaskContext.Provider value={{ tasks, addTask }}>
+    <TaskContext.Provider value={{ tasks, addTask, removeTask }}>
       {children}
     </TaskContext.Provider>
   )
