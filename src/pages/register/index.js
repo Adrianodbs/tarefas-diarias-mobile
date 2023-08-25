@@ -28,10 +28,13 @@ const Register = () => {
       name: taskName,
       daysOfWeek: selectedDays
     }
-    addTask(task)
-
-    setTaskName('')
-    setSelectedDays([])
+    try {
+      addTask(task) // Adicione a nova tarefa
+      setTaskName('')
+      setSelectedDays([])
+    } catch (error) {
+      console.error('Erro ao adicionar a tarefa', error)
+    }
   }
 
   return (

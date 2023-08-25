@@ -23,12 +23,13 @@ export function TaskProvider({ children }) {
     fetchTasks()
   }, [])
 
-  const addTask = async updatedTasks => {
+  const addTask = async task => {
     try {
-      setTasks(updatedTasks) // Atualize o estado com a nova lista de tarefas
+      const updatedTasks = Array.isArray(tasks) ? [...tasks, task] : [task]
+      setTasks(updatedTasks) // Atualize o estado local
 
-      // Salve a lista atualizada no localStorage
-      await AsyncStorage.setItem('tasks', JSON.stringify(updatedTasks))
+      // Chame a função para salvar no AsyncStorage
+      await saveTasksToStorage(updatedTasks)
     } catch (error) {
       console.error('Erro ao adicionar tarefa ao AsyncStorage', error)
     }
