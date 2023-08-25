@@ -6,8 +6,15 @@ import { CheckBox } from 'react-native-elements'
 import { useTasks } from '../../context/TaskContext'
 
 const Tasks = () => {
-  const [checked, setChecked] = useState(false)
   const { tasks } = useTasks()
+  const [checkedTasks, setCheckedTasks] = useState([])
+
+  // Função para alternar o estado de uma tarefa quando o CheckBox é pressionado
+  const toggleTask = index => {
+    const updatedCheckedTasks = [...checkedTasks]
+    updatedCheckedTasks[index] = !updatedCheckedTasks[index]
+    setCheckedTasks(updatedCheckedTasks)
+  }
   return (
     <SafeAreaView style={styles.tasks}>
       <View style={styles.titleContainer}>
@@ -21,8 +28,8 @@ const Tasks = () => {
               <View key={index} style={styles.contentItem}>
                 <Text style={styles.itemTitle}>{task.name}</Text>
                 <CheckBox
-                  checked={checked}
-                  onPress={() => setChecked(!checked)}
+                  checked={checkedTasks[index]}
+                  onPress={() => toggleTask(index)}
                 />
               </View>
             ))}
