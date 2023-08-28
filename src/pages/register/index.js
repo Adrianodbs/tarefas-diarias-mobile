@@ -44,7 +44,11 @@ const Register = () => {
           </Text>
         </View>
 
-        <ButtonApp onPress={saveTask} title="Salvar" />
+        <ButtonApp
+          onPress={saveTask}
+          title="Salvar"
+          disabled={taskName === ''}
+        />
       </View>
     </SafeAreaView>
   )

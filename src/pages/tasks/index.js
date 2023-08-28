@@ -99,7 +99,13 @@ const Tasks = () => {
             </View>
           </View>
         )}
-        {tasks.length > 0 && <ButtonApp title="Enviar" onPress={sendTasks} />}
+        {tasks.length > 0 && (
+          <ButtonApp
+            title="Enviar"
+            onPress={sendTasks}
+            disabled={progress === 0}
+          />
+        )}
       </View>
     </SafeAreaView>
   )
