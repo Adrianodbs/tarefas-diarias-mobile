@@ -1,14 +1,8 @@
 import React, { useState } from 'react'
-import {
-  StyleSheet,
-  Text,
-  View,
-  SafeAreaView,
-  TextInput,
-  TouchableOpacity
-} from 'react-native'
+import { StyleSheet, Text, View, SafeAreaView, TextInput } from 'react-native'
 
 import { useTasks } from '../../context/TaskContext'
+import ButtonApp from '../../components/ButtonApp'
 
 const Register = () => {
   const [taskName, setTaskName] = useState('')
@@ -50,9 +44,7 @@ const Register = () => {
           </Text>
         </View>
 
-        <TouchableOpacity style={styles.button} onPress={saveTask}>
-          <Text style={styles.buttonTitle}>Salvar</Text>
-        </TouchableOpacity>
+        <ButtonApp onPress={saveTask} title="Salvar" />
       </View>
     </SafeAreaView>
   )
@@ -99,19 +91,6 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     borderRadius: 4,
     color: '#000'
-  },
-  button: {
-    backgroundColor: '#4A3780',
-    width: '90%',
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: 40,
-    borderRadius: 24
-  },
-  buttonTitle: {
-    color: '#fff',
-    fontWeight: 'bold',
-    fontSize: 18
   }
 })
 
