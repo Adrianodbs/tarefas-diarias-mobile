@@ -3,6 +3,7 @@ import {
   Text,
   View,
   SafeAreaView,
+  ScrollView,
   TouchableOpacity
 } from 'react-native'
 import React, { useState } from 'react'
@@ -35,7 +36,7 @@ const Tasks = () => {
 
       <View style={styles.content}>
         {tasks.length > 0 ? (
-          <View style={styles.contentTasks}>
+          <ScrollView style={styles.contentTasks}>
             {tasks.map((task, index) => (
               <View key={index} style={styles.contentItem}>
                 <Text style={styles.itemTitle}>{task.name}</Text>
@@ -50,7 +51,7 @@ const Tasks = () => {
                 </View>
               </View>
             ))}
-          </View>
+          </ScrollView>
         ) : (
           <Text>Você ainda não cadastrou nenhuma tarefa!</Text>
         )}
@@ -66,7 +67,8 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     flexDirection: 'column',
-    backgroundColor: '#4A3780'
+    backgroundColor: '#4A3780',
+    marginTop: 35
   },
   titleContainer: {
     flex: 1, // 20% da tela
@@ -97,7 +99,9 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 }, // Deslocamento da sombra
     shadowOpacity: 0.3, // Opacidade da sombra
     shadowRadius: 4, // Raio da sombra
-    elevation: 5
+    elevation: 5,
+    maxHeight: 500,
+    overflow: 'scroll'
   },
   contentItem: {
     flexDirection: 'row',

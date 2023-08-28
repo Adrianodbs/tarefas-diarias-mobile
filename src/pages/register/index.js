@@ -55,7 +55,8 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     flexDirection: 'column',
-    backgroundColor: '#4A3780'
+    backgroundColor: '#4A3780',
+    marginTop: 35
   },
   titleContainer: {
     flex: 1, // 20% da tela
