@@ -13,6 +13,7 @@ import { Ionicons } from '@expo/vector-icons'
 import { CheckBox } from 'react-native-elements'
 
 import { useTasks } from '../../context/TaskContext'
+import ButtonApp from '../../components/ButtonApp'
 
 const Tasks = () => {
   const { tasks, removeTask } = useTasks()
@@ -24,9 +25,19 @@ const Tasks = () => {
     setCheckedTasks(updatedCheckedTasks)
   }
 
+  const getCurrentDate = () => {
+    const now = new Date()
+    const day = String(now.getDate()).padStart(2, '0')
+    const month = String(now.getMonth() + 1).padStart(2, '0')
+    const year = now.getFullYear()
+    return `${day}/${month}/${year}`
+  }
+
   const handleRemoveTask = taskName => {
     removeTask(taskName)
   }
+
+  const sendTasks = () => {}
 
   return (
     <SafeAreaView style={styles.tasks}>
@@ -37,6 +48,7 @@ const Tasks = () => {
       <View style={styles.content}>
         {tasks.length > 0 ? (
           <ScrollView style={styles.contentTasks}>
+            <Text style={styles.day}>{getCurrentDate()}</Text>
             {tasks.map((task, index) => (
               <View key={index} style={styles.contentItem}>
                 <Text style={styles.itemTitle}>{task.name}</Text>
@@ -55,6 +67,7 @@ const Tasks = () => {
         ) : (
           <Text>Você ainda não cadastrou nenhuma tarefa!</Text>
         )}
+        {tasks.length > 0 && <ButtonApp title="Enviar" onPress={sendTasks} />}
       </View>
     </SafeAreaView>
   )
@@ -88,6 +101,11 @@ const styles = StyleSheet.create({
     paddingVertical: 32,
     justifyContent: 'space-between',
     alignItems: 'center'
+  },
+  day: {
+    textAlign: 'center',
+    fontSize: 17,
+    paddingVertical: 15
   },
   contentTasks: {
     backgroundColor: '#fff',

@@ -38,7 +38,7 @@ const Register = () => {
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>
+          <Text style={styles.sectionTitleInfo}>
             Realize as suas tarefas diárias, receba pontos por elas e suba a sua
             patente.
           </Text>
@@ -84,6 +84,11 @@ const styles = StyleSheet.create({
     color: '#000',
     fontSize: 18,
     marginBottom: 8
+  },
+  sectionTitleInfo: {
+    color: '#000',
+    fontSize: 20,
+    textAlign: 'center'
   },
   input: {
     backgroundColor: '#fff',
