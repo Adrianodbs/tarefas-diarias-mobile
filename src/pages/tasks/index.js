@@ -14,26 +14,18 @@ import { CheckBox } from 'react-native-elements'
 
 import { useTasks } from '../../context/TaskContext'
 import ButtonApp from '../../components/ButtonApp'
+import { getCurrentDate } from '../../utils/GetCurrentDate'
 
 const Tasks = () => {
   const { tasks, removeTask } = useTasks()
   const [checkedTasks, setCheckedTasks] = useState([])
   const [progress, setProgress] = useState(0)
   const [progressColor, setProgressColor] = useState('')
-  const [progressWidth, setProgressWidth] = useState('')
 
   const toggleTask = index => {
     const updatedCheckedTasks = [...checkedTasks]
     updatedCheckedTasks[index] = !updatedCheckedTasks[index]
     setCheckedTasks(updatedCheckedTasks)
-  }
-
-  const getCurrentDate = () => {
-    const now = new Date()
-    const day = String(now.getDate()).padStart(2, '0')
-    const month = String(now.getMonth() + 1).padStart(2, '0')
-    const year = now.getFullYear()
-    return `${day}/${month}/${year}`
   }
 
   const handleRemoveTask = taskName => {
@@ -49,13 +41,10 @@ const Tasks = () => {
 
     if (percentage <= 25) {
       setProgressColor('red')
-      setProgressWidth(`${percentage}%`)
     } else if (percentage <= 50) {
       setProgressColor('orange')
-      setProgressWidth(`${percentage}%`)
     } else {
       setProgressColor('green')
-      setProgressWidth(`${percentage}%`)
     }
 
     setProgress(percentage)
