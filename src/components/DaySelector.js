@@ -3,13 +3,13 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 
 const DaySelector = ({ selectedDays, onDayPress }) => {
   const daysOfWeek = [
+    'Domingo',
     'Segunda-feira',
     'Terça-feira',
     'Quarta-feira',
     'Quinta-feira',
     'Sexta-feira',
-    'Sábado',
-    'Domingo'
+    'Sábado'
   ]
 
   return (

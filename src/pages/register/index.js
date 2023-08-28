@@ -7,31 +7,20 @@ import {
   TextInput,
   TouchableOpacity
 } from 'react-native'
-import DaySelector from '../../components/DaySelector'
 
 import { useTasks } from '../../context/TaskContext'
 
 const Register = () => {
   const [taskName, setTaskName] = useState('')
-  const [selectedDays, setSelectedDays] = useState([])
   const { addTask } = useTasks()
-
-  const toggleDay = day => {
-    const updatedDays = selectedDays.includes(day)
-      ? selectedDays.filter(selectedDay => selectedDay !== day)
-      : [...selectedDays, day]
-    setSelectedDays(updatedDays)
-  }
 
   const saveTask = () => {
     const task = {
-      name: taskName,
-      daysOfWeek: selectedDays
+      name: taskName
     }
     try {
       addTask(task) // Adicione a nova tarefa
       setTaskName('')
-      setSelectedDays([])
     } catch (error) {
       console.error('Erro ao adicionar a tarefa', error)
     }
@@ -55,8 +44,10 @@ const Register = () => {
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Dias da Semana</Text>
-          <DaySelector selectedDays={selectedDays} onDayPress={toggleDay} />
+          <Text style={styles.sectionTitle}>
+            Realize as suas tarefas diárias, receba pontos por elas e suba a sua
+            patente.
+          </Text>
         </View>
 
         <TouchableOpacity style={styles.button} onPress={saveTask}>

@@ -39,13 +39,15 @@ const Tasks = () => {
             {tasks.map((task, index) => (
               <View key={index} style={styles.contentItem}>
                 <Text style={styles.itemTitle}>{task.name}</Text>
-                <CheckBox
-                  checked={checkedTasks[index]}
-                  onPress={() => toggleTask(index)}
-                />
-                <TouchableOpacity onPress={() => handleRemoveTask(task.name)}>
-                  <Ionicons name="trash-outline" size={24} color="red" />
-                </TouchableOpacity>
+                <View style={styles.taskButtons}>
+                  <CheckBox
+                    checked={checkedTasks[index]}
+                    onPress={() => toggleTask(index)}
+                  />
+                  <TouchableOpacity onPress={() => handleRemoveTask(task.name)}>
+                    <Ionicons name="trash-outline" size={24} color="red" />
+                  </TouchableOpacity>
+                </View>
               </View>
             ))}
           </View>
@@ -100,10 +102,19 @@ const styles = StyleSheet.create({
   contentItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    borderBottomWidth: 1,
+    borderBottomColor: '#cacaca',
+    marginBottom: 10,
+    padding: 5
   },
   itemTitle: {
     fontSize: 16,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    maxWidth: '65%'
+  },
+  taskButtons: {
+    flexDirection: 'row',
+    alignItems: 'center'
   }
 })
