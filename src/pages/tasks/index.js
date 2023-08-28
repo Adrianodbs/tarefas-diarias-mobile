@@ -6,7 +6,7 @@ import {
   ScrollView,
   TouchableOpacity
 } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Ionicons } from '@expo/vector-icons'
 
@@ -18,6 +18,9 @@ import ButtonApp from '../../components/ButtonApp'
 const Tasks = () => {
   const { tasks, removeTask } = useTasks()
   const [checkedTasks, setCheckedTasks] = useState([])
+  const [progress, setProgress] = useState(0)
+  const [progressColor, setProgressColor] = useState('')
+  const [progressWidth, setProgressWidth] = useState('')
 
   const toggleTask = index => {
     const updatedCheckedTasks = [...checkedTasks]
@@ -38,6 +41,25 @@ const Tasks = () => {
   }
 
   const sendTasks = () => {}
+
+  useEffect(() => {
+    const completedTasks = checkedTasks.filter(task => task === true).length
+    const totalTasks = tasks.length
+    const percentage = (completedTasks / totalTasks) * 100
+
+    if (percentage <= 25) {
+      setProgressColor('red')
+      setProgressWidth(`${percentage}%`)
+    } else if (percentage <= 50) {
+      setProgressColor('orange')
+      setProgressWidth(`${percentage}%`)
+    } else {
+      setProgressColor('green')
+      setProgressWidth(`${percentage}%`)
+    }
+
+    setProgress(percentage)
+  }, [checkedTasks, tasks])
 
   return (
     <SafeAreaView style={styles.tasks}>
@@ -66,6 +88,27 @@ const Tasks = () => {
           </ScrollView>
         ) : (
           <Text>Você ainda não cadastrou nenhuma tarefa!</Text>
+        )}
+        {tasks.length > 0 && (
+          <View>
+            <Text style={styles.progressText}>
+              {Math.round(progress)}% das tarefas concluídas
+            </Text>
+            <View
+              style={[
+                styles.progressBar,
+                { backgroundColor: 'transparent', width: 300 } // Largura fixa da barra de progresso
+              ]}
+            >
+              <View
+                style={{
+                  width: (300 * progress) / 100, // Largura real com base na porcentagem
+                  height: '100%',
+                  backgroundColor: progressColor
+                }}
+              />
+            </View>
+          </View>
         )}
         {tasks.length > 0 && <ButtonApp title="Enviar" onPress={sendTasks} />}
       </View>
@@ -118,7 +161,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3, // Opacidade da sombra
     shadowRadius: 4, // Raio da sombra
     elevation: 5,
-    maxHeight: 500,
+    maxHeight: 450,
     overflow: 'scroll'
   },
   contentItem: {
@@ -138,5 +181,16 @@ const styles = StyleSheet.create({
   taskButtons: {
     flexDirection: 'row',
     alignItems: 'center'
+  },
+  progressText: {
+    textAlign: 'center',
+    marginTop: 10
+  },
+  progressBar: {
+    height: 10,
+    borderRadius: 5,
+    marginTop: 5,
+    borderWidth: 1,
+    borderColor: 'gray'
   }
 })
