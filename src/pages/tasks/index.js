@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
   day: {
     textAlign: 'center',
     fontSize: 17,
-    paddingVertical: 15
+    paddingVertical: 5
   },
   contentTasks: {
     backgroundColor: '#fff',

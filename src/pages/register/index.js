@@ -1,5 +1,12 @@
 import React, { useState } from 'react'
-import { StyleSheet, Text, View, SafeAreaView, TextInput } from 'react-native'
+import {
+  StyleSheet,
+  Text,
+  View,
+  SafeAreaView,
+  TextInput,
+  Keyboard
+} from 'react-native'
 
 import { useTasks } from '../../context/TaskContext'
 import ButtonApp from '../../components/ButtonApp'
@@ -15,6 +22,7 @@ const Register = () => {
     try {
       addTask(task) // Adicione a nova tarefa
       setTaskName('')
+      Keyboard.dismiss()
     } catch (error) {
       console.error('Erro ao adicionar a tarefa', error)
     }
