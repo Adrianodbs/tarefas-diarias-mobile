@@ -17,7 +17,8 @@ import ButtonApp from '../../components/ButtonApp'
 import { getCurrentDate } from '../../utils/GetCurrentDate'
 
 const Tasks = () => {
-  const { tasks, removeTask } = useTasks()
+  const { tasks, removeTask, sendTasks, saveCompletedTasksToStorage } =
+    useTasks()
   const [checkedTasks, setCheckedTasks] = useState([])
   const [progress, setProgress] = useState(0)
   const [progressColor, setProgressColor] = useState('')
@@ -32,7 +33,19 @@ const Tasks = () => {
     removeTask(taskName)
   }
 
-  const sendTasks = () => {}
+  const handleSendTasks = () => {
+    // Encontre as tarefas concluídas (aquelas que estão marcadas como verdadeiras em checkedTasks)
+    const completedTaskIndexes = checkedTasks
+      .map((isChecked, index) => (isChecked ? index : null))
+      .filter(index => index !== null)
+    const completedTasks = completedTaskIndexes.map(index => tasks[index])
+
+    // Chame a função para salvar as tarefas concluídas no AsyncStorage
+    saveCompletedTasksToStorage(completedTasks)
+
+    // Agora você pode limpar a lista de tarefas concluídas, pois elas foram registradas
+    setCheckedTasks([])
+  }
 
   useEffect(() => {
     const completedTasks = checkedTasks.filter(task => task === true).length
@@ -102,7 +115,7 @@ const Tasks = () => {
         {tasks.length > 0 && (
           <ButtonApp
             title="Enviar"
-            onPress={sendTasks}
+            onPress={handleSendTasks}
             disabled={progress === 0}
           />
         )}

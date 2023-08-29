@@ -35,11 +35,33 @@ export function TaskProvider({ children }) {
     }
   }
 
+  const saveCompletedTasksToStorage = async completedTasks => {
+    try {
+      // Recupere as tarefas concluídas anteriores, se houver
+      const storedCompletedTasks =
+        (await AsyncStorage.getItem('completedTasks')) || '[]'
+      const parsedCompletedTasks = JSON.parse(storedCompletedTasks)
+
+      // Adicione as tarefas concluídas do dia atual à lista existente
+      const updatedCompletedTasks = [...parsedCompletedTasks, ...completedTasks]
+
+      // Salve as tarefas concluídas no AsyncStorage
+      await AsyncStorage.setItem(
+        'completedTasks',
+        JSON.stringify(updatedCompletedTasks)
+      )
+    } catch (error) {
+      console.error('Erro ao salvar tarefas concluídas no AsyncStorage', error)
+    }
+  }
+
   const removeTask = taskName => {
     const updatedTasks = tasks.filter(task => task.name !== taskName)
     setTasks(updatedTasks)
     saveTasksToStorage(updatedTasks) // Atualize o localStorage também
   }
+
+  const sendTasks = () => {}
 
   const saveTasksToStorage = async updatedTasks => {
     try {
@@ -50,7 +72,15 @@ export function TaskProvider({ children }) {
   }
 
   return (
-    <TaskContext.Provider value={{ tasks, addTask, removeTask }}>
+    <TaskContext.Provider
+      value={{
+        tasks,
+        addTask,
+        removeTask,
+        sendTasks,
+        saveCompletedTasksToStorage
+      }}
+    >
       {children}
     </TaskContext.Provider>
   )
