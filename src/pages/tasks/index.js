@@ -17,8 +17,13 @@ import ButtonApp from '../../components/ButtonApp'
 import { getCurrentDate } from '../../utils/GetCurrentDate'
 
 const Tasks = () => {
-  const { tasks, removeTask, sendTasks, saveCompletedTasksToStorage } =
-    useTasks()
+  const {
+    tasks,
+    removeTask,
+    completedTasks,
+    saveCompletedTasksToStorage,
+    updateTotalScore
+  } = useTasks()
   const [checkedTasks, setCheckedTasks] = useState([])
   const [progress, setProgress] = useState(0)
   const [progressColor, setProgressColor] = useState('')
@@ -34,23 +39,22 @@ const Tasks = () => {
   }
 
   const handleSendTasks = () => {
-    // Encontre as tarefas concluídas (aquelas que estão marcadas como verdadeiras em checkedTasks)
     const completedTaskIndexes = checkedTasks
       .map((isChecked, index) => (isChecked ? index : null))
       .filter(index => index !== null)
     const completedTasks = completedTaskIndexes.map(index => tasks[index])
 
-    // Chame a função para salvar as tarefas concluídas no AsyncStorage
     saveCompletedTasksToStorage(completedTasks)
 
-    // Agora você pode limpar a lista de tarefas concluídas, pois elas foram registradas
     setCheckedTasks([])
+
+    updateTotalScore()
   }
 
   useEffect(() => {
-    const completedTasks = checkedTasks.filter(task => task === true).length
+    const completedTask = checkedTasks.filter(task => task === true).length
     const totalTasks = tasks.length
-    const percentage = (completedTasks / totalTasks) * 100
+    const percentage = (completedTask / totalTasks) * 100
 
     if (percentage <= 25) {
       setProgressColor('red')
@@ -61,7 +65,7 @@ const Tasks = () => {
     }
 
     setProgress(percentage)
-  }, [checkedTasks, tasks])
+  }, [checkedTasks, tasks, completedTasks])
 
   return (
     <SafeAreaView style={styles.tasks}>

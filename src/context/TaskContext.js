@@ -6,9 +6,10 @@ const TaskContext = createContext()
 
 export function TaskProvider({ children }) {
   const [tasks, setTasks] = useState([])
+  const [completedTasks, setCompletedTasks] = useState([])
+  const [totalScore, setTotalScore] = useState(0)
 
   useEffect(() => {
-    // Recupere as tarefas salvas no localStorage quando o componente for montado
     async function fetchTasks() {
       try {
         const storedTasks = await AsyncStorage.getItem('tasks')
@@ -28,7 +29,6 @@ export function TaskProvider({ children }) {
       const updatedTasks = Array.isArray(tasks) ? [...tasks, task] : [task]
       setTasks(updatedTasks) // Atualize o estado local
 
-      // Chame a função para salvar no AsyncStorage
       await saveTasksToStorage(updatedTasks)
     } catch (error) {
       console.error('Erro ao adicionar tarefa ao AsyncStorage', error)
@@ -37,15 +37,12 @@ export function TaskProvider({ children }) {
 
   const saveCompletedTasksToStorage = async completedTasks => {
     try {
-      // Recupere as tarefas concluídas anteriores, se houver
       const storedCompletedTasks =
         (await AsyncStorage.getItem('completedTasks')) || '[]'
       const parsedCompletedTasks = JSON.parse(storedCompletedTasks)
 
-      // Adicione as tarefas concluídas do dia atual à lista existente
       const updatedCompletedTasks = [...parsedCompletedTasks, ...completedTasks]
 
-      // Salve as tarefas concluídas no AsyncStorage
       await AsyncStorage.setItem(
         'completedTasks',
         JSON.stringify(updatedCompletedTasks)
@@ -61,7 +58,10 @@ export function TaskProvider({ children }) {
     saveTasksToStorage(updatedTasks) // Atualize o localStorage também
   }
 
-  const sendTasks = () => {}
+  const updateTotalScore = () => {
+    const newTotalScore = completedTasks.length * 10
+    setTotalScore(newTotalScore)
+  }
 
   const saveTasksToStorage = async updatedTasks => {
     try {
@@ -77,8 +77,11 @@ export function TaskProvider({ children }) {
         tasks,
         addTask,
         removeTask,
-        sendTasks,
-        saveCompletedTasksToStorage
+        totalScore,
+        updateTotalScore,
+        saveCompletedTasksToStorage,
+        completedTasks,
+        setCompletedTasks
       }}
     >
       {children}

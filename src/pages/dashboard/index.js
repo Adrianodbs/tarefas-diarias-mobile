@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { StyleSheet, Text, View, SafeAreaView, FlatList } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useTasks } from '../../context/TaskContext'
 
 const Dashboard = () => {
-  const [completedTasks, setCompletedTasks] = useState([])
+  const { completedTasks, setCompletedTasks } = useTasks()
+  const [totalScore, setTotalScore] = useState(completedTasks.length * 10)
 
   useEffect(() => {
     // Recupere as tarefas concluídas do AsyncStorage quando o componente for montado
@@ -24,10 +26,12 @@ const Dashboard = () => {
     }
 
     fetchCompletedTasks()
-  }, [])
+  }, [completedTasks])
 
-  // Calcule a pontuação total com base no número de tarefas concluídas (10 pontos por tarefa)
-  const totalScore = completedTasks.length * 10
+  useEffect(() => {
+    const newTotalScore = completedTasks.length * 10
+    setTotalScore(newTotalScore)
+  }, [completedTasks])
 
   return (
     <SafeAreaView style={styles.container}>
