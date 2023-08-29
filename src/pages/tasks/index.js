@@ -28,6 +28,9 @@ const Tasks = () => {
   const [progress, setProgress] = useState(0)
   const [progressColor, setProgressColor] = useState('')
 
+  const [showMessage, setShowMessage] = useState(false)
+  const [message, setMessage] = useState('')
+
   const toggleTask = index => {
     const updatedCheckedTasks = [...checkedTasks]
     updatedCheckedTasks[index] = !updatedCheckedTasks[index]
@@ -49,6 +52,15 @@ const Tasks = () => {
     setCheckedTasks([])
 
     updateTotalScore()
+
+    const scoreEarned = completedTasks.length * 10
+    setMessage(`Você ganhou ${scoreEarned} pontos`)
+
+    setShowMessage(true)
+
+    setTimeout(() => {
+      setShowMessage(false)
+    }, 2000)
   }
 
   useEffect(() => {
@@ -123,6 +135,12 @@ const Tasks = () => {
             disabled={progress === 0}
           />
         )}
+
+        {showMessage && (
+          <View style={styles.messageContainer}>
+            <Text style={styles.messageText}>{message}</Text>
+          </View>
+        )}
       </View>
     </SafeAreaView>
   )
@@ -136,7 +154,8 @@ const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'column',
     backgroundColor: '#4A3780',
-    marginTop: 35
+    marginTop: 35,
+    position: 'relative'
   },
   titleContainer: {
     flex: 1, // 20% da tela
@@ -204,5 +223,19 @@ const styles = StyleSheet.create({
     marginTop: 5,
     borderWidth: 1,
     borderColor: 'gray'
+  },
+  messageContainer: {
+    position: 'absolute',
+    top: -80, // Ajuste a posição vertical conforme necessário
+    right: 10, // Ajuste a posição horizontal conforme necessário
+    backgroundColor: 'green', // Cor de fundo do balão
+    padding: 20,
+    borderRadius: 5,
+    zIndex: 1 // Para garantir que o balão esteja sobre os outros elementos
+  },
+
+  messageText: {
+    color: 'white', // Cor do texto do balão
+    fontWeight: 'bold'
   }
 })

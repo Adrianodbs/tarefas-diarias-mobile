@@ -39,16 +39,7 @@ const Dashboard = () => {
       <Text style={styles.score}>{totalScore} pontos</Text>
       <Text style={styles.title}>Tarefas Concluídas</Text>
       {completedTasks.length > 0 ? (
-        <FlatList
-          data={completedTasks}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={({ item }) => (
-            <View style={styles.taskItem}>
-              <Text>{item.name}</Text>
-              {/* Você pode adicionar mais informações da tarefa aqui, se necessário */}
-            </View>
-          )}
-        />
+        <Text>Sua patente é: </Text>
       ) : (
         <Text>Nenhuma tarefa concluída ainda.</Text>
       )}
