@@ -63,6 +63,15 @@ export function TaskProvider({ children }) {
     setTotalScore(newTotalScore)
   }
 
+  const deleteScore = async () => {
+    try {
+      await AsyncStorage.setItem('completedTasks', '[]')
+      setCompletedTasks([])
+    } catch (error) {
+      console.error('Erro ao apagar a pontuação', error)
+    }
+  }
+
   const saveTasksToStorage = async updatedTasks => {
     try {
       await AsyncStorage.setItem('tasks', JSON.stringify(updatedTasks))
@@ -81,7 +90,8 @@ export function TaskProvider({ children }) {
         updateTotalScore,
         saveCompletedTasksToStorage,
         completedTasks,
-        setCompletedTasks
+        setCompletedTasks,
+        deleteScore
       }}
     >
       {children}

@@ -1,10 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, Text, View, SafeAreaView, FlatList } from 'react-native'
+import {
+  StyleSheet,
+  Text,
+  SafeAreaView,
+  TouchableOpacity,
+  View
+} from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useTasks } from '../../context/TaskContext'
+import ButtonApp from '../../components/ButtonApp'
 
 const Dashboard = () => {
-  const { completedTasks, setCompletedTasks } = useTasks()
+  const { completedTasks, setCompletedTasks, deleteScore } = useTasks()
   const [totalScore, setTotalScore] = useState(completedTasks.length * 10)
 
   useEffect(() => {
@@ -37,11 +44,14 @@ const Dashboard = () => {
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Atualmente você possui</Text>
       <Text style={styles.score}>{totalScore} pontos</Text>
-      <Text style={styles.title}>Tarefas Concluídas</Text>
+
       {completedTasks.length > 0 ? (
-        <Text>Sua patente é: </Text>
+        <Text style={styles.titleRank}>Sua patente é: </Text>
       ) : (
         <Text>Nenhuma tarefa concluída ainda.</Text>
+      )}
+      {completedTasks.length > 0 && (
+        <ButtonApp title="Apagar a pontuação" onPress={deleteScore} />
       )}
     </SafeAreaView>
   )
@@ -59,6 +69,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 10,
     marginTop: 40
+  },
+  titleRank: {
+    fontSize: 20,
+    marginBottom: 30
   },
   score: {
     fontSize: 36,
