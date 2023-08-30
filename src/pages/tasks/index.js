@@ -32,9 +32,11 @@ const Tasks = () => {
   const [message, setMessage] = useState('')
 
   const toggleTask = index => {
-    const updatedCheckedTasks = [...checkedTasks]
-    updatedCheckedTasks[index] = !updatedCheckedTasks[index]
-    setCheckedTasks(updatedCheckedTasks)
+    if (!tasks[index].completed) {
+      const updatedCheckedTasks = [...checkedTasks]
+      updatedCheckedTasks[index] = !updatedCheckedTasks[index]
+      setCheckedTasks(updatedCheckedTasks)
+    }
   }
 
   const handleRemoveTask = taskName => {
@@ -46,6 +48,13 @@ const Tasks = () => {
       .map((isChecked, index) => (isChecked ? index : null))
       .filter(index => index !== null)
     const completedTasks = completedTaskIndexes.map(index => tasks[index])
+
+    // Atualize o campo 'completed' para as tarefas concluídas
+    const currentDate = getCurrentDate()
+    completedTasks.forEach(task => {
+      task.completed = true
+      task.completedDate = currentDate // opcional: salve a data de conclusão
+    })
 
     saveCompletedTasksToStorage(completedTasks)
 
@@ -91,7 +100,14 @@ const Tasks = () => {
             <Text style={styles.day}>{getCurrentDate()}</Text>
             {tasks.map((task, index) => (
               <View key={index} style={styles.contentItem}>
-                <Text style={styles.itemTitle}>{task.name}</Text>
+                <Text
+                  style={[
+                    styles.itemTitle,
+                    task.completed && styles.completedTask
+                  ]}
+                >
+                  {task.name}
+                </Text>
                 <View style={styles.taskButtons}>
                   <CheckBox
                     checked={checkedTasks[index]}
@@ -208,6 +224,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     maxWidth: '65%'
+  },
+  completedTask: {
+    textDecorationLine: 'line-through', // Adiciona um risco no meio do texto
+    color: 'gray' // Define a cor do texto para cinza (pode personalizar)
   },
   taskButtons: {
     flexDirection: 'row',
