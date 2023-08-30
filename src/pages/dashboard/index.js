@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import {
-  StyleSheet,
-  Text,
-  SafeAreaView,
-  TouchableOpacity,
-  View
-} from 'react-native'
+import { StyleSheet, Text, SafeAreaView, Alert, View } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useTasks } from '../../context/TaskContext'
 import ButtonApp from '../../components/ButtonApp'
@@ -40,6 +34,27 @@ const Dashboard = () => {
     setTotalScore(newTotalScore)
   }, [completedTasks])
 
+  const handleDeleteScore = () => {
+    Alert.alert(
+      'Apagar Pontuação',
+      'Tem certeza de que deseja apagar sua pontuação? Isso limpará todos os seus pontos.',
+      [
+        {
+          text: 'Cancelar',
+          onPress: () => console.log('Ação de exclusão cancelada'),
+          style: 'cancel'
+        },
+        {
+          text: 'Sim',
+          onPress: () => {
+            deleteScore()
+            console.log('Pontuação apagada com sucesso')
+          }
+        }
+      ]
+    )
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Atualmente você possui</Text>
@@ -51,7 +66,7 @@ const Dashboard = () => {
         <Text>Nenhuma tarefa concluída ainda.</Text>
       )}
       {completedTasks.length > 0 && (
-        <ButtonApp title="Apagar a pontuação" onPress={deleteScore} />
+        <ButtonApp title="Apagar a pontuação" onPress={handleDeleteScore} />
       )}
     </SafeAreaView>
   )
