@@ -5,7 +5,8 @@ import {
   View,
   SafeAreaView,
   TextInput,
-  Keyboard
+  Keyboard,
+  Alert
 } from 'react-native'
 
 import Modal from 'react-native-modal'
@@ -16,11 +17,20 @@ import Header from '../../components/Header'
 
 const Register = () => {
   const [taskName, setTaskName] = useState('')
-  const { addTask } = useTasks()
+  const { addTask, tasks } = useTasks()
 
   const [isModalVisible, setModalVisible] = useState(false)
 
   const saveTask = () => {
+    if (tasks.some(task => task.name === taskName)) {
+      Alert.alert(
+        'Tarefa duplicada',
+        'Uma tarefa com o mesmo nome já existe.',
+        [{ text: 'Fechar', onPress: () => {} }]
+      )
+      return
+    }
+
     const task = {
       name: taskName
     }
