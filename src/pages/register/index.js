@@ -9,8 +9,6 @@ import {
   Alert
 } from 'react-native'
 
-import Modal from 'react-native-modal'
-
 import { useTasks } from '../../context/TaskContext'
 import ButtonApp from '../../components/ButtonApp'
 import Header from '../../components/Header'
@@ -18,8 +16,6 @@ import Header from '../../components/Header'
 const Register = () => {
   const [taskName, setTaskName] = useState('')
   const { addTask, tasks } = useTasks()
-
-  const [isModalVisible, setModalVisible] = useState(false)
 
   const saveTask = () => {
     if (tasks.some(task => task.name === taskName)) {
@@ -39,7 +35,11 @@ const Register = () => {
       setTaskName('')
       Keyboard.dismiss()
 
-      setModalVisible(true)
+      Alert.alert(
+        'Tarefa adicionada',
+        `A tarefa "${taskName}" foi adicionada com sucesso.`,
+        [{ text: 'Fechar', onPress: () => {} }]
+      )
     } catch (error) {
       console.error('Erro ao adicionar a tarefa', error)
     }
@@ -73,13 +73,6 @@ const Register = () => {
           disabled={taskName === ''}
         />
       </View>
-
-      <Modal isVisible={isModalVisible}>
-        <View style={styles.modalContent}>
-          <Text style={styles.modalText}>Tarefa adicionada com sucesso!</Text>
-          <ButtonApp title="Fechar" onPress={() => setModalVisible(false)} />
-        </View>
-      </Modal>
     </SafeAreaView>
   )
 }
@@ -120,19 +113,6 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     borderRadius: 4,
     color: '#000'
-  },
-  modalContent: {
-    backgroundColor: 'white',
-    paddingHorizontal: 10,
-    paddingVertical: 50,
-    borderRadius: 10,
-    alignItems: 'center',
-    width: '80%',
-    alignSelf: 'center'
-  },
-  modalText: {
-    fontSize: 18,
-    marginBottom: 40
   }
 })
 
