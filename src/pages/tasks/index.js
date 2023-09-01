@@ -7,15 +7,15 @@ import {
   TouchableOpacity
 } from 'react-native'
 import React, { useEffect, useState } from 'react'
-
 import { Ionicons } from '@expo/vector-icons'
-
 import { CheckBox } from 'react-native-elements'
 
 import { useTasks } from '../../context/TaskContext'
-import ButtonApp from '../../components/ButtonApp'
 import { getCurrentDate } from '../../utils/GetCurrentDate'
+
+import ButtonApp from '../../components/ButtonApp'
 import Header from '../../components/Header'
+import MessageScore from '../../components/MessageScore'
 
 const Tasks = () => {
   const {
@@ -150,11 +150,7 @@ const Tasks = () => {
           />
         )}
 
-        {showMessage && (
-          <View style={styles.messageContainer}>
-            <Text style={styles.messageText}>{message}</Text>
-          </View>
-        )}
+        {showMessage && <MessageScore message={message} />}
       </View>
     </SafeAreaView>
   )
@@ -231,19 +227,5 @@ const styles = StyleSheet.create({
     marginTop: 5,
     borderWidth: 1,
     borderColor: 'gray'
-  },
-  messageContainer: {
-    position: 'absolute',
-    top: 5,
-    right: 5,
-    backgroundColor: '#4A3780',
-    padding: 20,
-    borderRadius: 5,
-    zIndex: 1
-  },
-
-  messageText: {
-    color: 'white',
-    fontWeight: 'bold'
   }
 })
