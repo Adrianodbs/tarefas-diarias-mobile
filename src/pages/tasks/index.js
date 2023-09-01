@@ -4,7 +4,8 @@ import {
   View,
   SafeAreaView,
   ScrollView,
-  TouchableOpacity
+  TouchableOpacity,
+  Alert
 } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Ionicons } from '@expo/vector-icons'
@@ -41,7 +42,22 @@ const Tasks = () => {
   }
 
   const handleRemoveTask = taskName => {
-    removeTask(taskName)
+    Alert.alert(
+      'Confirmação',
+      `Você tem certeza que deseja excluir a tarefa "${taskName}"?`,
+      [
+        {
+          text: 'Cancelar',
+          style: 'cancel'
+        },
+        {
+          text: 'Sim',
+          onPress: () => {
+            removeTask(taskName)
+          }
+        }
+      ]
+    )
   }
 
   const handleSendTasks = () => {
