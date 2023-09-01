@@ -8,12 +8,16 @@ import {
   Keyboard
 } from 'react-native'
 
+import Modal from 'react-native-modal'
+
 import { useTasks } from '../../context/TaskContext'
 import ButtonApp from '../../components/ButtonApp'
 
 const Register = () => {
   const [taskName, setTaskName] = useState('')
   const { addTask } = useTasks()
+
+  const [isModalVisible, setModalVisible] = useState(false)
 
   const saveTask = () => {
     const task = {
@@ -23,6 +27,8 @@ const Register = () => {
       addTask(task) // Adicione a nova tarefa
       setTaskName('')
       Keyboard.dismiss()
+
+      setModalVisible(true)
     } catch (error) {
       console.error('Erro ao adicionar a tarefa', error)
     }
@@ -58,6 +64,13 @@ const Register = () => {
           disabled={taskName === ''}
         />
       </View>
+
+      <Modal isVisible={isModalVisible}>
+        <View style={styles.modalContent}>
+          <Text style={styles.modalText}>Tarefa adicionada com sucesso!</Text>
+          <ButtonApp title="Fechar" onPress={() => setModalVisible(false)} />
+        </View>
+      </Modal>
     </SafeAreaView>
   )
 }
@@ -109,6 +122,19 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     borderRadius: 4,
     color: '#000'
+  },
+  modalContent: {
+    backgroundColor: 'white',
+    paddingHorizontal: 10,
+    paddingVertical: 50,
+    borderRadius: 10,
+    alignItems: 'center',
+    width: '80%',
+    alignSelf: 'center'
+  },
+  modalText: {
+    fontSize: 18,
+    marginBottom: 40
   }
 })
 
