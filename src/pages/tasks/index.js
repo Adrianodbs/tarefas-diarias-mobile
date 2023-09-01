@@ -49,7 +49,6 @@ const Tasks = () => {
       .filter(index => index !== null)
     const completedTasks = completedTaskIndexes.map(index => tasks[index])
 
-    // Atualize o campo 'completed' para as tarefas concluídas
     const currentDate = getCurrentDate()
     completedTasks.forEach(task => {
       task.completed = true
@@ -226,8 +225,8 @@ const styles = StyleSheet.create({
     maxWidth: '65%'
   },
   completedTask: {
-    textDecorationLine: 'line-through', // Adiciona um risco no meio do texto
-    color: 'gray' // Define a cor do texto para cinza (pode personalizar)
+    textDecorationLine: 'line-through',
+    color: 'gray'
   },
   taskButtons: {
     flexDirection: 'row',
@@ -246,16 +245,16 @@ const styles = StyleSheet.create({
   },
   messageContainer: {
     position: 'absolute',
-    top: -80, // Ajuste a posição vertical conforme necessário
-    right: 10, // Ajuste a posição horizontal conforme necessário
-    backgroundColor: 'green', // Cor de fundo do balão
+    top: 5,
+    right: 5,
+    backgroundColor: '#4A3780',
     padding: 20,
     borderRadius: 5,
-    zIndex: 1 // Para garantir que o balão esteja sobre os outros elementos
+    zIndex: 1
   },
 
   messageText: {
-    color: 'white', // Cor do texto do balão
+    color: 'white',
     fontWeight: 'bold'
   }
 })

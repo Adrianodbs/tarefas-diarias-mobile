@@ -1,12 +1,14 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { getCurrentDate } from '../utils/GetCurrentDate'
 
 const TaskContext = createContext()
 
 export function TaskProvider({ children }) {
   const [tasks, setTasks] = useState([])
   const [completedTasks, setCompletedTasks] = useState([])
+  const [doneTask, setDoneTask] = useState(false)
   const [totalScore, setTotalScore] = useState(0)
 
   useEffect(() => {
@@ -67,6 +69,14 @@ export function TaskProvider({ children }) {
     try {
       await AsyncStorage.setItem('completedTasks', '[]')
       setCompletedTasks([])
+
+      const currentDate = getCurrentDate()
+      const updatedCompletedTasks = completedTasks.map(task => ({
+        ...task,
+        completed: false,
+        completedDate: currentDate
+      }))
+      setCompletedTasks(updatedCompletedTasks)
     } catch (error) {
       console.error('Erro ao apagar a pontuação', error)
     }
@@ -91,7 +101,9 @@ export function TaskProvider({ children }) {
         saveCompletedTasksToStorage,
         completedTasks,
         setCompletedTasks,
-        deleteScore
+        deleteScore,
+        doneTask,
+        setDoneTask
       }}
     >
       {children}
