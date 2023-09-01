@@ -12,6 +12,7 @@ import Modal from 'react-native-modal'
 
 import { useTasks } from '../../context/TaskContext'
 import ButtonApp from '../../components/ButtonApp'
+import Header from '../../components/Header'
 
 const Register = () => {
   const [taskName, setTaskName] = useState('')
@@ -36,9 +37,7 @@ const Register = () => {
 
   return (
     <SafeAreaView style={styles.register}>
-      <View style={styles.titleContainer}>
-        <Text style={styles.title}>Adicionar uma nova tarefa</Text>
-      </View>
+      <Header title="Adicionar uma nova tarefa" />
 
       <View style={styles.content}>
         <View style={styles.section}>
@@ -82,17 +81,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     backgroundColor: '#4A3780',
     marginTop: 35
-  },
-  titleContainer: {
-    flex: 1, // 20% da tela
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#4A3780'
-  },
-  title: {
-    color: '#fff',
-    fontSize: 24,
-    fontWeight: 'bold'
   },
   content: {
     flex: 4, // 80% da tela

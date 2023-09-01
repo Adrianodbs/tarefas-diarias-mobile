@@ -15,6 +15,7 @@ import { CheckBox } from 'react-native-elements'
 import { useTasks } from '../../context/TaskContext'
 import ButtonApp from '../../components/ButtonApp'
 import { getCurrentDate } from '../../utils/GetCurrentDate'
+import Header from '../../components/Header'
 
 const Tasks = () => {
   const {
@@ -89,9 +90,7 @@ const Tasks = () => {
 
   return (
     <SafeAreaView style={styles.tasks}>
-      <View style={styles.titleContainer}>
-        <Text style={styles.title}>Minhas tarefas</Text>
-      </View>
+      <Header title="Minhas tarefas" />
 
       <View style={styles.content}>
         {tasks.length > 0 ? (
@@ -172,17 +171,7 @@ const styles = StyleSheet.create({
     marginTop: 35,
     position: 'relative'
   },
-  titleContainer: {
-    flex: 1, // 20% da tela
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#4A3780'
-  },
-  title: {
-    color: '#fff',
-    fontSize: 24,
-    fontWeight: 'bold'
-  },
+
   content: {
     flex: 4, // 80% da tela
     backgroundColor: '#f1f5f9',
