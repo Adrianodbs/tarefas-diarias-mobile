@@ -7,6 +7,7 @@ import ButtonApp from '../../components/ButtonApp'
 const Dashboard = () => {
   const { completedTasks, setCompletedTasks, deleteScore } = useTasks()
   const [totalScore, setTotalScore] = useState(completedTasks.length * 10)
+  const [rank, setRank] = useState('')
 
   useEffect(() => {
     // Recupere as tarefas concluídas do AsyncStorage quando o componente for montado
@@ -32,6 +33,20 @@ const Dashboard = () => {
   useEffect(() => {
     const newTotalScore = completedTasks.length * 10
     setTotalScore(newTotalScore)
+  }, [completedTasks])
+
+  useEffect(() => {
+    const newRank = () => {
+      if (totalScore <= 50) setRank('Bronze')
+      else if (totalScore <= 100) setRank('Prata')
+      else if (totalScore <= 150) setRank('Ouro')
+      else if (totalScore <= 200) setRank('Platina')
+      else if (totalScore <= 250) setRank('Esmeralda')
+      else if (totalScore <= 300) setRank('Diamante')
+      else setRank('Mestre')
+    }
+
+    newRank()
   }, [completedTasks])
 
   const handleDeleteScore = () => {
@@ -61,7 +76,7 @@ const Dashboard = () => {
       <Text style={styles.score}>{totalScore} pontos</Text>
 
       {completedTasks.length > 0 ? (
-        <Text style={styles.titleRank}>Sua patente é: </Text>
+        <Text style={styles.titleRank}>Sua patente é: {rank} </Text>
       ) : (
         <Text>Nenhuma tarefa concluída ainda.</Text>
       )}
