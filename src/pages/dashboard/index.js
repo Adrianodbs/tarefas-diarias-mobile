@@ -1,13 +1,29 @@
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, Text, SafeAreaView, Alert, View } from 'react-native'
+import {
+  StyleSheet,
+  Text,
+  SafeAreaView,
+  Alert,
+  View,
+  Image
+} from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useTasks } from '../../context/TaskContext'
 import ButtonApp from '../../components/ButtonApp'
+
+import Bronze from '../../assets/img/bronze.png'
+import Prata from '../../assets/img/prata.png'
+import Ouro from '../../assets/img/ouro.png'
+import Rubi from '../../assets/img/rubi.png'
+import Esmeralda from '../../assets/img/esmeralda.png'
+import Diamante from '../../assets/img/diamante.png'
+import Mestre from '../../assets/img/mestre.png'
 
 const Dashboard = () => {
   const { completedTasks, setCompletedTasks, deleteScore } = useTasks()
   const [totalScore, setTotalScore] = useState(completedTasks.length * 10)
   const [rank, setRank] = useState('')
+  const [image, setImage] = useState(null)
 
   useEffect(() => {
     // Recupere as tarefas concluídas do AsyncStorage quando o componente for montado
@@ -37,13 +53,28 @@ const Dashboard = () => {
 
   useEffect(() => {
     const newRank = () => {
-      if (totalScore <= 50) setRank('Bronze')
-      else if (totalScore <= 100) setRank('Prata')
-      else if (totalScore <= 150) setRank('Ouro')
-      else if (totalScore <= 200) setRank('Platina')
-      else if (totalScore <= 250) setRank('Esmeralda')
-      else if (totalScore <= 300) setRank('Diamante')
-      else setRank('Mestre')
+      if (totalScore <= 50) {
+        setRank('Bronze')
+        setImage(Bronze)
+      } else if (totalScore <= 100) {
+        setRank('Prata')
+        setImage(Prata)
+      } else if (totalScore <= 150) {
+        setRank('Ouro')
+        setImage(Ouro)
+      } else if (totalScore <= 200) {
+        setRank('Rubi')
+        setImage(Rubi)
+      } else if (totalScore <= 250) {
+        setRank('Esmeralda')
+        setImage(Esmeralda)
+      } else if (totalScore <= 300) {
+        setRank('Diamante')
+        setImage(Diamante)
+      } else {
+        setRank('Mestre')
+        setImage(Mestre)
+      }
     }
 
     newRank()
@@ -76,7 +107,10 @@ const Dashboard = () => {
       <Text style={styles.score}>{totalScore} pontos</Text>
 
       {completedTasks.length > 0 ? (
-        <Text style={styles.titleRank}>Sua patente é: {rank} </Text>
+        <View style={styles.rank}>
+          <Text style={styles.titleRank}>Sua patente é: {rank}</Text>
+          <Image style={styles.img} source={image} />
+        </View>
       ) : (
         <Text>Nenhuma tarefa concluída ainda.</Text>
       )}
@@ -100,10 +134,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginTop: 40
   },
-  titleRank: {
-    fontSize: 20,
-    marginBottom: 30
-  },
   score: {
     fontSize: 36,
     fontWeight: 'bold',
@@ -118,6 +148,20 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderBottomWidth: 1,
     borderBottomColor: '#ccc'
+  },
+  rank: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 30,
+    gap: 4
+  },
+  titleRank: {
+    fontSize: 22,
+    fontWeight: 'bold'
+  },
+  img: {
+    width: 40,
+    height: 40
   }
 })
 
