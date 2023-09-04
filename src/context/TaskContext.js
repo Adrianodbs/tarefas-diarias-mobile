@@ -8,8 +8,12 @@ const TaskContext = createContext()
 export function TaskProvider({ children }) {
   const [tasks, setTasks] = useState([])
   const [completedTasks, setCompletedTasks] = useState([])
-  const [doneTask, setDoneTask] = useState(false)
   const [totalScore, setTotalScore] = useState(0)
+  const [checkedTasks, setCheckedTasks] = useState([])
+  const [showMessage, setShowMessage] = useState(false)
+  const [message, setMessage] = useState('')
+
+  const [updateFlag, setUpdateFlag] = useState(0)
 
   useEffect(() => {
     async function fetchTasks() {
@@ -77,6 +81,8 @@ export function TaskProvider({ children }) {
         completedDate: currentDate
       }))
       setCompletedTasks(updatedCompletedTasks)
+
+      setUpdateFlag(prevFlag => prevFlag + 1)
     } catch (error) {
       console.error('Erro ao apagar a pontuação', error)
     }
@@ -88,6 +94,34 @@ export function TaskProvider({ children }) {
     } catch (error) {
       console.error('Erro ao salvar tarefas no AsyncStorage', error)
     }
+  }
+
+  const handleSendTasks = () => {
+    const completedTaskIndexes = checkedTasks
+      .map((isChecked, index) => (isChecked ? index : null))
+      .filter(index => index !== null)
+    const completedTasks = completedTaskIndexes.map(index => tasks[index])
+
+    const currentDate = getCurrentDate()
+    completedTasks.forEach(task => {
+      task.completed = true
+      task.completedDate = currentDate // opcional: salve a data de conclusão
+    })
+
+    saveCompletedTasksToStorage(completedTasks)
+
+    setCheckedTasks([])
+
+    updateTotalScore()
+
+    const scoreEarned = completedTasks.length * 10
+    setMessage(`Você ganhou ${scoreEarned} pontos`)
+
+    setShowMessage(true)
+
+    setTimeout(() => {
+      setShowMessage(false)
+    }, 2000)
   }
 
   return (
@@ -102,8 +136,14 @@ export function TaskProvider({ children }) {
         completedTasks,
         setCompletedTasks,
         deleteScore,
-        doneTask,
-        setDoneTask
+        checkedTasks,
+        setCheckedTasks,
+        handleSendTasks,
+        showMessage,
+        setShowMessage,
+        message,
+        setMessage,
+        updateFlag
       }}
     >
       {children}

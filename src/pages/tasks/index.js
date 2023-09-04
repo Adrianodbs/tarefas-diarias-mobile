@@ -23,15 +23,16 @@ const Tasks = () => {
     tasks,
     removeTask,
     completedTasks,
-    saveCompletedTasksToStorage,
-    updateTotalScore
+    checkedTasks,
+    setCheckedTasks,
+    handleSendTasks,
+    showMessage,
+    message,
+    deleteScore,
+    updateFlag
   } = useTasks()
-  const [checkedTasks, setCheckedTasks] = useState([])
   const [progress, setProgress] = useState(0)
   const [progressColor, setProgressColor] = useState('')
-
-  const [showMessage, setShowMessage] = useState(false)
-  const [message, setMessage] = useState('')
 
   const toggleTask = index => {
     if (!tasks[index].completed) {
@@ -60,34 +61,6 @@ const Tasks = () => {
     )
   }
 
-  const handleSendTasks = () => {
-    const completedTaskIndexes = checkedTasks
-      .map((isChecked, index) => (isChecked ? index : null))
-      .filter(index => index !== null)
-    const completedTasks = completedTaskIndexes.map(index => tasks[index])
-
-    const currentDate = getCurrentDate()
-    completedTasks.forEach(task => {
-      task.completed = true
-      task.completedDate = currentDate // opcional: salve a data de conclusão
-    })
-
-    saveCompletedTasksToStorage(completedTasks)
-
-    setCheckedTasks([])
-
-    updateTotalScore()
-
-    const scoreEarned = completedTasks.length * 10
-    setMessage(`Você ganhou ${scoreEarned} pontos`)
-
-    setShowMessage(true)
-
-    setTimeout(() => {
-      setShowMessage(false)
-    }, 2000)
-  }
-
   useEffect(() => {
     const completedTask = checkedTasks.filter(task => task === true).length
     const totalTasks = tasks.length
@@ -102,7 +75,7 @@ const Tasks = () => {
     }
 
     setProgress(percentage)
-  }, [checkedTasks, tasks, completedTasks])
+  }, [checkedTasks, tasks, completedTasks, deleteScore, updateFlag])
 
   return (
     <SafeAreaView style={styles.tasks}>

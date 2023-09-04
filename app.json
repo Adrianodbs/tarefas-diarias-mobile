@@ -4,10 +4,10 @@
     "slug": "tarefasdiarias",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./src/assets/img/logo.png",
+    "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./src/assets/img/logo.png",
+      "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -19,12 +19,12 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./src/assets/img/logo.png",
+        "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       }
     },
     "web": {
-      "favicon": "./src/assets/img/logo.png"
+      "favicon": "./assets/favicon.png"
     }
   }
 }
